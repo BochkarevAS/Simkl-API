@@ -13,12 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SimklController extends Controller {
 
+    private $simklParser;
+
+    public function __construct(SimklParser $simklParser) {
+        $this->simklParser = $simklParser;
+    }
+
     /**
      * @Route("/authorize", name="authorize_simkl")
      */
-    public function authorizeAction(SimklParser $simklParser) {
+    public function authorizeAction() {
 
-        $simklParser->authorize();
+        $this->simklParser->authorize();
 
         return new Response();
     }
@@ -26,12 +32,26 @@ class SimklController extends Controller {
     /**
      * @Route("/token", name="token_simkl")
      */
-    public function tokenAction(Request $request, SimklParser $simklParser) {
+    public function tokenAction(Request $request) {
 
         $code = $request->query->get('code');
 
-        $simklParser->token($code);
+        $token = $this->simklParser->token($code);
 
-        return $this->render('simkl/index.hnml.twig', []);
+        if (!$token) {
+            return new Response('<h1>Token not found !!!</h1>');
+        }
+
+        return $this->redirectToRoute('activities_simkl', ['token' => $token]);
+    }
+
+    /**
+     * @Route("/activities/{token}", name="activities_simkl")
+     */
+    public function activitiesAction($token) {
+
+        $this->simklParser->activities($token);
+
+        return new Response();
     }
 }

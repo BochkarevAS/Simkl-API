@@ -7,9 +7,9 @@ use Doctrine\Common\Cache\Cache;
 class SimklParser {
 
     private $cache;
+    const CLIENT_ID = '9e36b457bc701379ef59849daf7ecf71e02549f551442b962b52a34b105c5d82';
 
     public function __construct(Cache $cache) {
-
         $this->cache = $cache;
     }
 
@@ -29,9 +29,11 @@ class SimklParser {
 
     public function token($code) {
 
+        $token = null;
+
         $json = [
             'code' => $code,
-            'client_id' => '9e36b457bc701379ef59849daf7ecf71e02549f551442b962b52a34b105c5d82',
+            'client_id' => self::CLIENT_ID,
             'client_secret' => '88fcbdd1433112ac07872b573ad5fed427675ad0d1ee4dde5f8b6580800bc512',
             'redirect_uri' => 'http://127.0.0.1:8000/simkl/token',
             'grant_type' => 'authorization_code'
@@ -53,9 +55,35 @@ class SimklParser {
         $response = curl_exec($curl);
         curl_close($curl);
 
+        $list = json_decode($response, true);
+
+        foreach ($list as $key => $value) {
+            if ($key === 'access_token') {
+                $token = $value;
+            }
+        }
+
+        return $token;
+    }
+
+    public function activities($token) {
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, "https://api.simkl.com/sync/activities");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+            "Content-Type: application/json",
+            "authorization: Bearer $token",
+            "simkl-api-key: " . self::CLIENT_ID
+        ]);
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
         var_dump($response);
 
         die;
     }
-
 }
