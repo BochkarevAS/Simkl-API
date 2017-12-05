@@ -35,7 +35,6 @@ class SimklController extends Controller {
     public function tokenAction(Request $request) {
 
         $code = $request->query->get('code');
-
         $token = $this->simklParser->token($code);
 
         if (!$token) {
@@ -50,8 +49,10 @@ class SimklController extends Controller {
      */
     public function activitiesAction($token) {
 
-        $this->simklParser->activities($token);
+        $list = $this->simklParser->activities($token);
 
-        return new Response();
+        return $this->render('simkl/index.html.twig', [
+           'list' => $list
+        ]);
     }
 }
