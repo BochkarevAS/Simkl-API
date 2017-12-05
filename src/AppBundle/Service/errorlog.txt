@@ -1,0 +1,34 @@
+* Hostname in DNS cache was stale, zapped
+*   Trying 94.130.10.87...
+* TCP_NODELAY set
+* Connected to api.simkl.com (94.130.10.87) port 443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+*   CAfile: C:\php\extras\ssl\cacert.pem
+  CApath: none
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=simkl.com
+*  start date: Oct  9 14:37:28 2017 GMT
+*  expire date: Jan  7 14:37:28 2018 GMT
+*  subjectAltName: host "api.simkl.com" matched cert's "api.simkl.com"
+*  issuer: C=US; O=Let's Encrypt; CN=Let's Encrypt Authority X3
+*  SSL certificate verify ok.
+> GET /movies/tt1201607?client_id=9e36b457bc701379ef59849daf7ecf71e02549f551442b962b52a34b105c5d82 HTTP/1.1
+Host: api.simkl.com
+Accept: */*
+
+< HTTP/1.1 200 OK
+< Server: nginx/1.12.1
+< Date: Mon, 04 Dec 2017 08:19:53 GMT
+< Content-Type: application/json
+< Content-Length: 158
+< Connection: keep-alive
+< Keep-Alive: timeout=300
+< Vary: Accept-Encoding
+< X-Powered-By: PHP/5.6.31
+< Strict-Transport-Security: max-age=0
+< 
+* Connection #0 to host api.simkl.com left intact
