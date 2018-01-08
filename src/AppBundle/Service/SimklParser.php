@@ -3,6 +3,7 @@
 namespace AppBundle\Service;
 
 use Doctrine\Common\Cache\Cache;
+use GuzzleHttp\Client;
 
 class SimklParser {
 
@@ -83,6 +84,9 @@ class SimklParser {
 
         $response = curl_exec($curl);
         curl_close($curl);
+
+        var_dump($response);
+        die;
 
         return json_decode($response, true);
     }

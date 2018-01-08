@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-    <h1>Hello world</h1>
+    {% if user.Status %}
+        <a class="btn btn-primary btn-lg" href="{{ path('count_eggs', {'id': user.id}) }}">Count Eggs</a>
+    {% else %}
+        <a class="btn btn-primary btn-lg" href="{{ path('coop_authorize_start') }}">Authorize</a>
+    {% endif %}
 
 {% endblock %}
