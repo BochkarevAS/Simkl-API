@@ -15,7 +15,13 @@ class CountEggsController extends Controller {
     public function countEggsAction(Request $request) {
         $id = $request->query->get('id');
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->findTokenByUserId($id)[0];
+        $list = $em->getRepository('AppBundle:User')->findTokenByStatusId($id);
+
+        if (!$list) {
+            throw new \Exception('User not found');
+        } else {
+            $user = $list[0];
+        }
 
         if (!$user->getToken() || !$user->getStatus()) {
             throw new \Exception('Somehow you got here, but without a valid COOP access token! Re-authorize!');

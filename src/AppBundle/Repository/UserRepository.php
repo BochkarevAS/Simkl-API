@@ -6,11 +6,11 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository {
 
-    public function findTokenByUserId($id) {
+    public function findTokenByStatusId($id) {
 
         return $this->createQueryBuilder('g')
-            ->andWhere('g.id = :id')
-            ->setParameter('id', $id)
+            ->andWhere('g.status = :status')
+            ->setParameter('status', $id)
             ->getQuery()
             ->execute();
     }

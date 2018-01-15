@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-    {% if user.Status %}
-        <a class="btn btn-primary btn-lg" href="{{ path('count_eggs', {'id': user.id}) }}">Count Eggs</a>
+    <a class="btn btn-primary btn-lg" href="{{ path('login')}}">Login</a>
+
+    <br>
+
+    {% if movie.token is defined %}
+        <a class="btn btn-primary btn-lg" href="{{ path('count_eggs', {'id': movie.token}) }}">Count Eggs</a>
     {% else %}
-        <a class="btn btn-primary btn-lg" href="{{ path('coop_authorize_start') }}">Authorize</a>
+        <a class="btn btn-primary btn-lg" href="{{ path('authorize_start') }}">Authorize</a>
     {% endif %}
 
 {% endblock %}

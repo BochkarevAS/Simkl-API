@@ -11,14 +11,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class CoopController extends Controller {
 
     /**
-     * @Route("/oauth", name="authorize_start")
+     * @Route("/oauth1", name="authorize_start1")
      */
     public function redirectToAuthorizationAction() {
+        $state = md5(uniqid(mt_rand(), true));
+
         $http = [
             'response_type' => 'code',
             'client_id' => 'Ant-vl',
             'redirect_uri' => 'http://127.0.0.1:8000/oauth/receive',
-            'scope' => 'eggs-count profile'
+            'scope' => 'eggs-count profile',
+            'state' => $state
         ];
 
         $url = 'http://coop.apps.knpuniversity.com/authorize?' . http_build_query($http);
@@ -26,7 +29,7 @@ class CoopController extends Controller {
     }
 
     /**
-     * @Route("/oauth/receive/", name="oauth_receive")
+     * @Route("/oauth1/receive/", name="oauth1_receive")
      */
     public function receiveAuthorizationCodeAction(Request $request) {
         $code = $request->query->get('code');
@@ -50,6 +53,7 @@ class CoopController extends Controller {
             'form_params' => [
                 'client_id'     => 'Ant-vl',
                 'client_secret' => 'd3366efdcdbee49ecd5748dc5e8bc1e4',
+                'code'          => $code,
                 'grant_type'    => 'client_credentials'
             ]
         ]);
@@ -78,8 +82,14 @@ class CoopController extends Controller {
 
         // Запишем данные в БД
         $em = $this->getDoctrine()->getManager();
+        $arr = $em->getRepository('AppBundle:User')->findTokenByStatusId($list['id']);
 
-        $user = new User();
+        if (!$arr) {
+            $user = new User();
+        } else {
+            $user = $arr[0];
+        }
+
         $user->setFirstName($list['firstName']);
         $user->setLastName($list['lastName']);
         $user->setEmail($list['email']);

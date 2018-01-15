@@ -16,4 +16,12 @@ class MainController extends Controller {
 
         return $this->render('main/homepage.html.twig', []);
     }
+
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction() {
+
+        return $this->render('user/login.html.twig', []);
+    }
 }
