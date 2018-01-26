@@ -7,6 +7,10 @@
 
     {% if movie.token is defined %}
         <a class="btn btn-primary btn-lg" href="{{ path('count_eggs', {'id': movie.token}) }}">Count Eggs</a>
+    {% endif %}
+
+    {% if token is defined %}
+        <a class="btn btn-primary btn-lg" href="{{ path('torrent_start', {'token': token}) }}">Torrent</a>
     {% else %}
         <a class="btn btn-primary btn-lg" href="{{ path('authorize_start') }}">Authorize</a>
     {% endif %}

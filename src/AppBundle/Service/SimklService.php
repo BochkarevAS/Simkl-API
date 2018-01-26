@@ -85,6 +85,6 @@ class SimklService {
             $this->manager->flush();
         }
 
-        return $movie;
+        return $token;
     }
 }

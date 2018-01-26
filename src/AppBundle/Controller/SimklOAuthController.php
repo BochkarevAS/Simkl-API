@@ -28,10 +28,10 @@ class SimklOAuthController extends Controller  {
      */
     public function receiveAuthorizationCodeAction(Request $request) {
         $code = $request->query->get('code');
-        $movie = $this->simklService->receiveAuthorizationCode($code);
+        $token = $this->simklService->receiveAuthorizationCode($code);
 
         return $this->render('main/homepage.html.twig', [
-            'movie' => $movie
+            'token' => $token
         ]);
     }
 }

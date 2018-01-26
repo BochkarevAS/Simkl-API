@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {% for movie in movies %}
+
+        <div>
+            <a class="btn btn-primary btn-lg" href="{{ path('torrent_movie', {'name': movie.name}) }}">{{ movie.name }}</a>
+        </div>
+
+    {% endfor %}
+
+{% endblock %}
