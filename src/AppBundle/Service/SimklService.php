@@ -3,7 +3,6 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Movie;
-use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 
@@ -14,11 +13,9 @@ class SimklService {
     const CLIENT_SECRET = '88fcbdd1433112ac07872b573ad5fed427675ad0d1ee4dde5f8b6580800bc512';
 
     private $manager;
-    private $cache;
 
-    public function __construct(ObjectManager $manager, Cache $cache) {
+    public function __construct(ObjectManager $manager) {
         $this->manager = $manager;
-        $this->cache = $cache;
     }
 
     public function redirectToAuthorization() {
@@ -63,11 +60,6 @@ class SimklService {
         if (!isset($token)) {
             throw new \Exception('Token not found');
         }
-
-//        if ($this->cache->contains($code)) {
-//            return $this->cache->fetch($code);
-//        }
-//        $this->cache->save($code, $token);
 
         $response = $client->request('POST', '/sync/all-items/movies/?extended=full', [
             'headers' => [

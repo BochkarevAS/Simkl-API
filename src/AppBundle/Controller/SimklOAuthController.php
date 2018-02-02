@@ -19,6 +19,14 @@ class SimklOAuthController extends Controller  {
      * @Route("/oauth", name="authorize_start")
      */
     public function redirectToAuthorizationAction() {
+        $token = $this->get('session')->get('token');
+
+        if ($token) {
+            return $this->render('main/homepage.html.twig', [
+                'token' => $token
+            ]);
+        }
+
         $url = $this->simklService->redirectToAuthorization();
         return $this->redirect($url);
     }
@@ -29,6 +37,7 @@ class SimklOAuthController extends Controller  {
     public function receiveAuthorizationCodeAction(Request $request) {
         $code = $request->query->get('code');
         $token = $this->simklService->receiveAuthorizationCode($code);
+        $this->get('session')->set('token', $token);
 
         return $this->render('main/homepage.html.twig', [
             'token' => $token
