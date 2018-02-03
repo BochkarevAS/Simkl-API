@@ -3,10 +3,15 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
     </head>
     <body>
+
+        <div id="msgid"></div>
+
+        <script src="{{ asset('build/js/app.js') }}"></script>
+
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
